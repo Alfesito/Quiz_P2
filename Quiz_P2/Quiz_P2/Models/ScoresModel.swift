@@ -12,6 +12,7 @@ class ScoresModel: ObservableObject {
     @Published private(set) var acertadas: Set <Int> = []
     @Published private(set) var arrayAcertadas: Array <QuizItem> = []
     @Published private(set) var arrayNoAcertadas: Array <QuizItem> = []
+    @Published private(set) var stringAcertadas: Set <String> = []
     
     func check(res: String, quiz: QuizItem){
         let a1 = res.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
@@ -19,6 +20,7 @@ class ScoresModel: ObservableObject {
         
         if(a1 == a2){
             acertadas.insert(quiz.id)
+            stringAcertadas.insert(quiz.question)
             
             // Guarda en array acertadas los quizzes acertados
             arrayAcertadas.append(quiz)
@@ -71,6 +73,14 @@ class ScoresModel: ObservableObject {
                 print("Ha ocurrido un error: \(error)")
             }
         }
+    //ADICIONAL-Resetea los arrays y sets para empezar de nuevo el juego
+    func reset(){
+        acertadas = []
+        arrayAcertadas = []
+        arrayNoAcertadas = []
+        stringAcertadas = []
+    }
+    
 }
     
 

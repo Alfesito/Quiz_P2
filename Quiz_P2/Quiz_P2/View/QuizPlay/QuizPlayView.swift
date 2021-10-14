@@ -10,11 +10,14 @@ import SwiftUI
 struct QuizPlayView: View {
     @EnvironmentObject var scoresModel : ScoresModel
     @EnvironmentObject var quizzesModel : QuizzesModel
+    
     var quizItem: QuizItem
     @State var answer: String = ""
     @State var showAlert = false
     @State var showAnswer1 = false
     @State var showAnswer2 = false
+    @State var r = 0.0
+
     
     var body: some View {
         
@@ -30,18 +33,17 @@ struct QuizPlayView: View {
                         .shadow(color: Color.gray, radius: 5)
                     
                 }
+                    let s1: String = answer.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+                    let s2: String = quizItem.answer.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+                
                     TextField("Respuesta",
                               text: $answer,
                               onCommit: {
                                 showAlert = true
                                 scoresModel.check(res: answer, quiz: quizItem)
-                                
                     }
                     )
                         .alert(isPresented: $showAlert){
-                            let s1: String = answer.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-                            let s2: String = quizItem.answer.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-                            
                             return Alert(title: Text("Resultado"),
                                          message: Text(s1 == s2 ? "Bien" : "Mal"),
                                          dismissButton: .default(Text("Ok"))
@@ -51,8 +53,15 @@ struct QuizPlayView: View {
                 Button(action: {
                     showAlert = true
                     scoresModel.check(res: answer, quiz: quizItem)
+                    if(s1 == s2){
+                        withAnimation{
+                            r = r + 360
+                        }
+                    }
+                    
                 }) {
                     Text("Comprobar")
+                    Image(systemName: "paperplane.circle.fill")
                 }
                 
                 attachment
@@ -103,6 +112,14 @@ struct QuizPlayView: View {
                             Text("Ver solución")
                             Image(systemName: "eye")
                         }
+                        //Reseteamos los arrays y sets
+                        Button(action: {
+                            scoresModel.reset()
+                            answer = ""
+                        }) {
+                            Text("Resetear juego")
+                            Image(systemName: "backward")
+                        }
                     }
                     
         }
@@ -122,13 +139,14 @@ struct QuizPlayView: View {
             .clipShape(Rectangle())
             .shadow(color: Color.gray, radius: 5)
             //Animations
+            .rotationEffect(Angle(degrees: r))
             .saturation(self.showAlert ? 0.1 : 1)
             .animation(.easeInOut, value: self.showAlert)
             .onTapGesture(count: 2) {
                 answer = quizItem.answer
                 showAnswer1 = true
             }.saturation(self.showAnswer1 ? 0.1 : 1)
-            //Adicional - Cuando se mantiene pulsado sobre la imagen, se borra la respuesta al quiz
+            //ADICIONAL - Cuando se mantiene pulsado sobre la imagen, se borra la respuesta al quiz
             //          y la imagen se pone como en default
             .onLongPressGesture{
                 if showAnswer1{
