@@ -13,6 +13,7 @@ class ScoresModel: ObservableObject {
     @Published private(set) var arrayAcertadas: Array <QuizItem> = []
     @Published private(set) var arrayNoAcertadas: Array <QuizItem> = []
     @Published private(set) var stringAcertadas: Set <String> = []
+    private var kmykey = "MY_KEY"
     
     func check(res: String, quiz: QuizItem){
         let a1 = res.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
@@ -73,7 +74,7 @@ class ScoresModel: ObservableObject {
                 print("Ha ocurrido un error: \(error)")
             }
         }
-    //ADICIONAL-Resetea los arrays y sets para empezar de nuevo el juego
+    //ADICIONAL - Resetea los arrays y sets para empezar de nuevo el juego
     func reset(){
         acertadas = []
         arrayAcertadas = []
@@ -81,6 +82,19 @@ class ScoresModel: ObservableObject {
         stringAcertadas = []
     }
     
+    //Guarda la puntuacion en las preferencias del usuario, siempre y cuando el score sea
+    //mayor al que habia guardado anteriormente
+    func score(){
+        if(UserDefaults.standard.integer(forKey: kmykey) < acertadas.count){
+            UserDefaults.standard.set(acertadas.count, forKey: kmykey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    //ADICIONAL - Elimina la puntuacion guardada en la preferencias del usuario
+    func deleteScore(){
+        UserDefaults.standard.removeObject(forKey: kmykey)
+        UserDefaults.standard.synchronize()
+    }
 }
     
 

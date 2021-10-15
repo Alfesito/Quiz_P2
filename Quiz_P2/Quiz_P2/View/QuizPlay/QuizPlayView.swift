@@ -41,6 +41,7 @@ struct QuizPlayView: View {
                               onCommit: {
                                 showAlert = true
                                 scoresModel.check(res: answer, quiz: quizItem)
+                                scoresModel.score()
                     }
                     )
                         .alert(isPresented: $showAlert){
@@ -53,6 +54,7 @@ struct QuizPlayView: View {
                 Button(action: {
                     showAlert = true
                     scoresModel.check(res: answer, quiz: quizItem)
+                    scoresModel.score()
                     if(s1 == s2){
                         withAnimation{
                             r = r + 360
@@ -115,6 +117,7 @@ struct QuizPlayView: View {
                         //Reseteamos los arrays y sets
                         Button(action: {
                             scoresModel.reset()
+                            scoresModel.deleteScore()
                             answer = ""
                         }) {
                             Text("Resetear juego")

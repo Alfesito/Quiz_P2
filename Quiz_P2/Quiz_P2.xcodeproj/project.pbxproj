@@ -68,7 +68,6 @@
 		155005D0270F07C700673A3E /* Quiz_P2 */ = {
 			isa = PBXGroup;
 			children = (
-				159638312718C50300B00298 /* Launch */,
 				155005FD270F085000673A3E /* App */,
 				155005E2270F080B00673A3E /* Main */,
 				155005E5270F080B00673A3E /* Models */,
@@ -128,8 +127,8 @@
 		155005F4270F081500673A3E /* QuizzesList */ = {
 			isa = PBXGroup;
 			children = (
-				155005F5270F081500673A3E /* QuizRowView.swift */,
 				155005F6270F081500673A3E /* QuizzesListView.swift */,
+				155005F5270F081500673A3E /* QuizRowView.swift */,
 			);
 			path = QuizzesList;
 			sourceTree = "<group>";
@@ -140,13 +139,6 @@
 				155005D1270F07C700673A3E /* Quiz_P2App.swift */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		159638312718C50300B00298 /* Launch */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Launch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
