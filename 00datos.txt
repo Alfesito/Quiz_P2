@@ -1,0 +1,14 @@
+MIEMBROS DEL GRUPO
+Alfaro Fernandez, Andres 
+Cuesta Ruiz, Alvaro 
+
+ID DE LA CUENTA
+a003 90d7ce49
+
+MEJORAS
+1. Historial de quizzes acertados:
+	Se ha instalado un toolbar en QuizzesListView con un botón historial, donde al pulsarlo salta un sheet con las preguntas junto las respuestas que se ha acertado. Si no se han acertado ninguna salta un alert indicando el warning.
+2. Reseteo completo del juego:
+	Se ha implementado un botón adicional en el .contextMenu en QuizPlayView, donde al pulsarlo se borra la puntuación persistente que hay guardada, la puntuación del momento y los quizzes acertados.
+3. Gesto adicional:
+	Se ha implementado un gesto para que cuando el usuario deje pulsado sobre la imagen de PlayQuizView, borre el contenido de del TextField además de poner la saturación estándar de la imagen (siempre que esta se haya modificado anteriormente)
