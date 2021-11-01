@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct QuizzesListView: View {
-    
     @EnvironmentObject var quizzesModel : QuizzesModel
     @EnvironmentObject var scoresModel : ScoresModel
     @State var showNoResueltosView: Bool = false
     @State var showResueltos: Bool = false
     @State var showAlert: Bool = false
     private var kmykey = "MY_KEY"
-    //Text("\(UserDefaults.standard.integer(forKey: kmykey))")
     var body: some View {
         NavigationView{
             if(showNoResueltosView){
@@ -25,12 +23,12 @@ struct QuizzesListView: View {
                             SheetView(showResueltosSheet: $showResueltos, showAlertSheet: $showAlert)
                         }
                     }.alert(isPresented: $showAlert){
-                            return Alert(title: Text("⚠️"),
-                                         message: Text("No hay quizzes resueltos"),
-                                         dismissButton: .default(Text("Ok"))
-                            )
+                        return Alert(title: Text("⚠️"),
+                                     message: Text("No hay quizzes resueltos"),
+                                     dismissButton: .default(Text("Ok"))
+                        )
                     }
-        
+                
             }else{  //Default
                 SubView1(showNoResueltosView1 : $showNoResueltosView)
                     .toolbar{
@@ -38,10 +36,10 @@ struct QuizzesListView: View {
                             SheetView(showResueltosSheet: $showResueltos, showAlertSheet: $showAlert)
                         }
                     }.alert(isPresented: $showAlert){
-                            return Alert(title: Text("⚠️"),
-                                         message: Text("No hay quizzes resueltos"),
-                                         dismissButton: .default(Text("Ok"))
-                            )
+                        return Alert(title: Text("⚠️"),
+                                     message: Text("No hay quizzes resueltos"),
+                                     dismissButton: .default(Text("Ok"))
+                        )
                     }
             }
         }
@@ -54,30 +52,29 @@ struct SubView1: View {
     @Binding var showNoResueltosView1: Bool
     var kmykey = "MY_KEY"
     var body: some View{
-            List{
-                ForEach(quizzesModel.quizzes){
-                    qi in
-                    NavigationLink(destination: QuizPlayView(quizItem:qi)){
-                        QuizRowView(quizItem: qi)
-                    }
+        
+        List{
+            Toggle("Quizzes no resueltos", isOn: $showNoResueltosView1)
+            ForEach(quizzesModel.quizzes){
+                qi in
+                NavigationLink(destination: QuizPlayView(quizItem:qi)){
+                    QuizRowView(quizItem: qi)
                 }
             }
-            .padding()
-            .navigationBarTitle(Text("Quiz P2 SwiftIU"))
-                .toolbar{
-                    ToolbarItem(placement: .confirmationAction){
-                        Text("\(UserDefaults.standard.integer(forKey: kmykey))")
-                            .font(.largeTitle)
-                    }
-                    ToolbarItem(placement: .bottomBar){
-                        Toggle("Quizzes no resueltos", isOn: $showNoResueltosView1)
-                    }
-                }
-                
-            .onAppear(perform: {
-                quizzesModel.load()
-            })
         }
+        .padding()
+        .navigationBarTitle(Text("Quiz P2 SwiftIU"))
+        .toolbar{
+            ToolbarItem(placement: .confirmationAction){
+                Text("\(UserDefaults.standard.integer(forKey: kmykey))")
+                    .font(.largeTitle)
+            }
+        }
+        
+        .onAppear(perform: {
+            quizzesModel.load()
+        })
+    }
 }
 //Muestra los quizzes no resueltos
 struct SubView2: View {
@@ -86,29 +83,27 @@ struct SubView2: View {
     @Binding var showNoResueltosView2: Bool
     var kmykey = "MY_KEY"
     var body: some View{
-            List{
-                ForEach(scoresModel.arrayNoAcertadas){
-                    qi in
-                    NavigationLink(destination: QuizPlayView(quizItem:qi)){
-                        QuizRowView(quizItem: qi)
-                    }
+        List{
+            Toggle("Quizzes no resueltos", isOn: $showNoResueltosView2)
+            ForEach(scoresModel.arrayNoAcertadas){
+                qi in
+                NavigationLink(destination: QuizPlayView(quizItem:qi)){
+                    QuizRowView(quizItem: qi)
                 }
             }
-            .padding()
-            .navigationBarTitle(Text("Quiz P2 SwiftIU"))
-            .toolbar{
-                ToolbarItem(placement: .confirmationAction){
-                    Text("\(UserDefaults.standard.integer(forKey: kmykey))")
-                        .font(.largeTitle)
-                }
-                ToolbarItem(placement: .bottomBar){
-                    Toggle("Quizzes no resueltos", isOn: $showNoResueltosView2)
-                }
-            }
-            .onAppear(perform: {
-                scoresModel.load()
-            })
         }
+        .padding()
+        .navigationBarTitle(Text("Quiz P2 SwiftIU"))
+        .toolbar{
+            ToolbarItem(placement: .confirmationAction){
+                Text("\(UserDefaults.standard.integer(forKey: kmykey))")
+                    .font(.largeTitle)
+            }
+        }
+        .onAppear(perform: {
+            scoresModel.load()
+        })
+    }
 }
 
 struct SheetView: View {
@@ -118,33 +113,33 @@ struct SheetView: View {
     @Binding var showAlertSheet : Bool
     
     var body: some View{
-            Button(action: {
-                if(scoresModel.arrayAcertadas.count > 0){
-                    showResueltosSheet = true
-                }else{
-                    //Una alerta o mensaje que diga que no hay quizzes resuelos
-                    showAlertSheet = true
-                }
-            }) {
-                Text("Historial")
+        Button(action: {
+            if(scoresModel.arrayAcertadas.count > 0){
+                showResueltosSheet = true
+            }else{
+                //Una alerta o mensaje que diga que no hay quizzes resuelos
+                showAlertSheet = true
             }
-            .sheet(isPresented: $showResueltosSheet){
-                List{
-                    ForEach(scoresModel.arrayAcertadas){ q in
-                        HStack(alignment: .center){
-                            Text("\(q.question)")
-                                .padding(20)
-                            Image(systemName: "chevron.forward.circle")
-                            Text("\(q.answer)")
-                        }
+        }) {
+            Text("Historial")
+        }
+        .sheet(isPresented: $showResueltosSheet){
+            List{
+                ForEach(scoresModel.arrayAcertadas){ q in
+                    HStack(alignment: .center){
+                        Text("\(q.question)")
+                            .padding(20)
+                        Image(systemName: "chevron.forward.circle")
+                        Text("\(q.answer)")
                     }
                 }
-    //            Button(action: {
-    //                self.showAlertSheet = false
-    //            }){
-    //                Text("Volver")
-    //            }.padding()
             }
+            //            Button(action: {
+            //                self.showAlertSheet = false
+            //            }){
+            //                Text("Volver")
+            //            }.padding()
+        }
     }
 }
 

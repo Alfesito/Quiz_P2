@@ -24,24 +24,22 @@ struct QuizRowView: View {
                         .shadow(color: Color.gray, radius: 5)
                 }
                 VStack(alignment: .leading){
-                        HStack{
-                            Text(quizItem.question)
-                                .font(.headline)
-                        }.scaledToFill()
-                        HStack(alignment: .bottom, spacing: 40){
-                            VStack(alignment: .leading){
-                                image_star
-                            }
-                            
-                            VStack(alignment: .leading){
-                                editor
-                            }
+                    HStack{
+                        Text(quizItem.question)
+                            .font(.headline)
+                    }.scaledToFill()
+                    HStack(alignment: .bottom, spacing: 40){
+                        VStack(alignment: .leading){
+                            image_star
                         }
+                        VStack(alignment: .leading){
+                            editor
+                        }
+                    }
                     
                 }
                 .padding(10)
             }
-            
     }
     
     private var image_star: some View{
@@ -65,12 +63,12 @@ struct QuizRowView: View {
                     .frame(width: 15, height: 15)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(lineWidth: 3))
-        }
+            }
     }
 }
 /*
-struct QuizRow_Previews: PreviewProvider {
-    static var previews: some View {
-        QuizRow()
-    }
-}*/
+ struct QuizRow_Previews: PreviewProvider {
+ static var previews: some View {
+ QuizRow()
+ }
+ }*/
